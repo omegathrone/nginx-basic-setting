@@ -7,11 +7,11 @@
 # Configure the nginx config file
 1. `cd /etc/nginx`
 2. `sudo cp default [target folder name]`
-3. `sudo nano [target folder name]`
+3. `sudo nano [your app folder name]`
 4. This is a sample.
 ```
 server {
-        root /home/ubuntu/`[target folder name]`/server/public;
+        root /home/ubuntu/`[your app folder name]`/server/public;
 
         index index.html index.htm index.nginx-debian.html;
 
@@ -27,7 +27,7 @@ server {
 }
 ```
 5. `/etc/nginx/sites-enable`
-6. `sudo ln -s ../sites-available/[target folder name]`
+6. `sudo ln -s ../sites-available/[your app folder name]`
 6. `sudo service nginx restart`
 
 # https setting
@@ -69,3 +69,19 @@ http {
 ```
 4. `sudo service nginx reload` or `sudo service nginx restart`
 
+# http to https redirect
+1. `cd /etc/nginx/sites-available`
+2. `sudo nano [yourappname]`
+3. It should look like this
+```
+server {
+    if ($host = notes.heegu.net) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    server_name notes.heegu.net;
+    listen 80;
+    return 404; # managed by Certbot
+}
+```
+4. `sudo service nginx restart`
